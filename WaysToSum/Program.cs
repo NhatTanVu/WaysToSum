@@ -42,7 +42,7 @@ namespace WaysToSum
                 arr.Add(1);
 
             int count = 0;
-            while (arr.Count > 1)
+            while (arr.Count >= 1)
             {
                 countWays(arr, arr.Count, n, k);
                 arr = arr.GetRange(0, arr.Count - 1);
