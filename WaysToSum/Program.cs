@@ -1,66 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WaysToSum
 {
-    public class Result
-    {
-        public static Dictionary<string, List<int>> results = new Dictionary<string, List<int>>();
-
-        public static void countWays(List<int> arr, int length, int n, int k)
-        {
-            if (length == 1)
-            {
-                if (k >= n)
-                {
-                    var cloneList = arr.ToList();
-                    cloneList[0] = n;
-                    cloneList = cloneList.OrderBy(x => x).ToList();
-                    results[string.Join(" ", cloneList)] = cloneList;
-                }
-            }
-            else
-            {
-                int last = arr[length - 1];
-                while (last <= k && n - last >= 1)
-                {
-                    countWays(arr, length - 1, n - last, k);
-                    last++;
-                    arr[length - 1] = last;
-                }
-                arr[length - 1] = 1;
-            }
-        }
-
-        public static int countWays(int n, int k)
-        {
-            List<int> arr = new List<int>();
-            for (int i = 0; i < n; i++)
-                arr.Add(1);
-
-            int count = 0;
-            while (arr.Count >= 1)
-            {
-                countWays(arr, arr.Count, n, k);
-                arr = arr.GetRange(0, arr.Count - 1);
-            }
-
-            foreach (var pair in results)
-                Console.WriteLine(pair.Key);
-
-            count += results.Keys.Count;
-
-            return count;
-        }
-    }
-
-    public class Solution
+    public class Program
     {
         public static void Main(string[] args)
         {
+            FileStream filestream = new FileStream("out.txt", FileMode.Create);
+            var streamwriter = new StreamWriter(filestream);
+            streamwriter.AutoFlush = true;
+            Console.SetOut(streamwriter);
+            Console.SetError(streamwriter);
+
             // n = 8, k = 3
             // 1 1 1 1 1 1 1 1
             // 1 1 1 1 1 1 2
@@ -89,9 +45,40 @@ namespace WaysToSum
             // 1 1 1 2
             // 1 2 2	
 
-            long result = Result.countWays(2, 2);
+            long result = 0;
+
+            //Console.WriteLine("n = 2, k = 2");
+            //Console.WriteLine("-------------");
+            //result = Solution2.countWays(2, 2);
+            //Console.WriteLine("-------------");
+            //Console.WriteLine(result);
+            //Console.WriteLine();
+
+            //Console.WriteLine("n = 5, k = 2");
+            //Console.WriteLine("-------------");
+            //result = Solution2.countWays(5, 2);
+            //Console.WriteLine("-------------");
+            //Console.WriteLine(result);
+            //Console.WriteLine();
+
+            //Console.WriteLine("n = 8, k = 2");
+            //Console.WriteLine("-------------");
+            //result = Solution2.countWays(8, 2);
+            //Console.WriteLine("-------------");
+            //Console.WriteLine(result);
+            //Console.WriteLine();
+
+            //Console.WriteLine("n = 8, k = 3");
+            //Console.WriteLine("-------------");
+            //result = Solution2.countWays(8, 3);
+            //Console.WriteLine("-------------");
+            //Console.WriteLine(result);
+
+            Console.WriteLine("n = 30, k = 30");
             Console.WriteLine("-------------");
-            Console.WriteLine(result);
+            result = Solution1.countWays(30, 30);
+            Console.WriteLine("-------------");
+            Console.Write(result);
         }
     }
 }
